@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CarShopDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="DataUser">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Username" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="200" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="TableCar">
+    <Key>
+      <PropertyRef Name="CarID" />
+    </Key>
+    <Property Name="CarID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CarType" Type="int" />
+    <Property Name="Description" Type="nvarchar(max)" />
+    <Property Name="Price" Type="money" />
+    <Property Name="Image" Type="image" />
+    <Property Name="Power" Type="int" />
+    <Property Name="SpeedMax" Type="int" />
+    <Property Name="Capacity" Type="int" />
+    <Property Name="TotalMass" Type="int" />
+    <Property Name="Width" Type="int" />
+    <Property Name="Length" Type="int" />
+    <Property Name="NumberOfSeats" Type="int" />
+  </EntityType>
+  <EntityType Name="TableCarType">
+    <Key>
+      <PropertyRef Name="CarType" />
+    </Key>
+    <Property Name="CarType" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TableTransaction">
+    <Key>
+      <PropertyRef Name="TransactionID" />
+    </Key>
+    <Property Name="TransactionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TransactionDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TableTransactionItem">
+    <Key>
+      <PropertyRef Name="TransactionItemID" />
+    </Key>
+    <Property Name="TransactionItemID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TransactionID" Type="int" Nullable="false" />
+    <Property Name="CarID" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_TableCar_TableCarType">
+    <End Role="TableCarType" Type="Self.TableCarType" Multiplicity="0..1" />
+    <End Role="TableCar" Type="Self.TableCar" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TableCarType">
+        <PropertyRef Name="CarType" />
+      </Principal>
+      <Dependent Role="TableCar">
+        <PropertyRef Name="CarType" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TableTransactionItem_TableCar">
+    <End Role="TableCar" Type="Self.TableCar" Multiplicity="1" />
+    <End Role="TableTransactionItem" Type="Self.TableTransactionItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TableCar">
+        <PropertyRef Name="CarID" />
+      </Principal>
+      <Dependent Role="TableTransactionItem">
+        <PropertyRef Name="CarID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TableTransactionItem_TableTransaction">
+    <End Role="TableTransaction" Type="Self.TableTransaction" Multiplicity="1" />
+    <End Role="TableTransactionItem" Type="Self.TableTransactionItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TableTransaction">
+        <PropertyRef Name="TransactionID" />
+      </Principal>
+      <Dependent Role="TableTransactionItem">
+        <PropertyRef Name="TransactionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="CarShopDatabaseModelStoreContainer">
+    <EntitySet Name="DataUser" EntityType="Self.DataUser" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TableCar" EntityType="Self.TableCar" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TableCarType" EntityType="Self.TableCarType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TableTransaction" EntityType="Self.TableTransaction" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TableTransactionItem" EntityType="Self.TableTransactionItem" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_TableCar_TableCarType" Association="Self.FK_TableCar_TableCarType">
+      <End Role="TableCarType" EntitySet="TableCarType" />
+      <End Role="TableCar" EntitySet="TableCar" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TableTransactionItem_TableCar" Association="Self.FK_TableTransactionItem_TableCar">
+      <End Role="TableCar" EntitySet="TableCar" />
+      <End Role="TableTransactionItem" EntitySet="TableTransactionItem" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TableTransactionItem_TableTransaction" Association="Self.FK_TableTransactionItem_TableTransaction">
+      <End Role="TableTransaction" EntitySet="TableTransaction" />
+      <End Role="TableTransactionItem" EntitySet="TableTransactionItem" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

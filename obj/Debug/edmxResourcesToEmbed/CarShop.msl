@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="CarShopDatabaseModelStoreContainer" CdmEntityContainer="CarShopDatabaseEntities1">
+    <EntitySetMapping Name="DataUser">
+      <EntityTypeMapping TypeName="CarShopDatabaseModel.DataUser">
+        <MappingFragment StoreEntitySet="DataUser">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="CarShopDatabaseModel.sysdiagrams">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TableCar">
+      <EntityTypeMapping TypeName="CarShopDatabaseModel.TableCar">
+        <MappingFragment StoreEntitySet="TableCar">
+          <ScalarProperty Name="CarID" ColumnName="CarID" />
+          <ScalarProperty Name="CarType" ColumnName="CarType" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Image" ColumnName="Image" />
+          <ScalarProperty Name="Power" ColumnName="Power" />
+          <ScalarProperty Name="SpeedMax" ColumnName="SpeedMax" />
+          <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+          <ScalarProperty Name="TotalMass" ColumnName="TotalMass" />
+          <ScalarProperty Name="Width" ColumnName="Width" />
+          <ScalarProperty Name="Length" ColumnName="Length" />
+          <ScalarProperty Name="NumberOfSeats" ColumnName="NumberOfSeats" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TableCarType">
+      <EntityTypeMapping TypeName="CarShopDatabaseModel.TableCarType">
+        <MappingFragment StoreEntitySet="TableCarType">
+          <ScalarProperty Name="CarType" ColumnName="CarType" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TableTransaction">
+      <EntityTypeMapping TypeName="CarShopDatabaseModel.TableTransaction">
+        <MappingFragment StoreEntitySet="TableTransaction">
+          <ScalarProperty Name="TransactionID" ColumnName="TransactionID" />
+          <ScalarProperty Name="TransactionDate" ColumnName="TransactionDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TableTransactionItem">
+      <EntityTypeMapping TypeName="CarShopDatabaseModel.TableTransactionItem">
+        <MappingFragment StoreEntitySet="TableTransactionItem">
+          <ScalarProperty Name="TransactionItemID" ColumnName="TransactionItemID" />
+          <ScalarProperty Name="TransactionID" ColumnName="TransactionID" />
+          <ScalarProperty Name="CarID" ColumnName="CarID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

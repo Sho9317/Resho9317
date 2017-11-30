@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="McDonaldModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="TblProducts">
+    <Key>
+      <PropertyRef Name="ProductID" />
+    </Key>
+    <Property Name="ProductID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ProductType" Type="int" Nullable="false" />
+    <Property Name="Price" Type="money" Nullable="false" />
+    <Property Name="Image" Type="image" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TblProductType">
+    <Key>
+      <PropertyRef Name="ProductType" />
+    </Key>
+    <Property Name="ProductType" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TblTransaction">
+    <Key>
+      <PropertyRef Name="TransactionID" />
+    </Key>
+    <Property Name="TransactionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TransactionDate" Type="date" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TblTransactionItemID">
+    <Key>
+      <PropertyRef Name="TransactionItemID" />
+    </Key>
+    <Property Name="TransactionItemID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TransactionID" Type="int" Nullable="false" />
+    <Property Name="ProductID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Admin" Type="bit" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_TblProducts_TblProductType">
+    <End Role="TblProductType" Type="Self.TblProductType" Multiplicity="1" />
+    <End Role="TblProducts" Type="Self.TblProducts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TblProductType">
+        <PropertyRef Name="ProductType" />
+      </Principal>
+      <Dependent Role="TblProducts">
+        <PropertyRef Name="ProductType" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TblTransactionItemID_TblProducts">
+    <End Role="TblProducts" Type="Self.TblProducts" Multiplicity="1" />
+    <End Role="TblTransactionItemID" Type="Self.TblTransactionItemID" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TblProducts">
+        <PropertyRef Name="ProductID" />
+      </Principal>
+      <Dependent Role="TblTransactionItemID">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TblTransactionItemID_TblTransaction">
+    <End Role="TblTransaction" Type="Self.TblTransaction" Multiplicity="1" />
+    <End Role="TblTransactionItemID" Type="Self.TblTransactionItemID" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TblTransaction">
+        <PropertyRef Name="TransactionID" />
+      </Principal>
+      <Dependent Role="TblTransactionItemID">
+        <PropertyRef Name="TransactionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="McDonaldModelStoreContainer">
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TblProducts" EntityType="Self.TblProducts" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TblProductType" EntityType="Self.TblProductType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TblTransaction" EntityType="Self.TblTransaction" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TblTransactionItemID" EntityType="Self.TblTransactionItemID" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_TblProducts_TblProductType" Association="Self.FK_TblProducts_TblProductType">
+      <End Role="TblProductType" EntitySet="TblProductType" />
+      <End Role="TblProducts" EntitySet="TblProducts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TblTransactionItemID_TblProducts" Association="Self.FK_TblTransactionItemID_TblProducts">
+      <End Role="TblProducts" EntitySet="TblProducts" />
+      <End Role="TblTransactionItemID" EntitySet="TblTransactionItemID" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TblTransactionItemID_TblTransaction" Association="Self.FK_TblTransactionItemID_TblTransaction">
+      <End Role="TblTransaction" EntitySet="TblTransaction" />
+      <End Role="TblTransactionItemID" EntitySet="TblTransactionItemID" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

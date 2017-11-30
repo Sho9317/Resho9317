@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CarShopDatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="DataUser">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Username" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="TableCar">
+    <Key>
+      <PropertyRef Name="CarID" />
+    </Key>
+    <Property Name="CarID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CarType" Type="Int32" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Price" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+    <Property Name="Image" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+    <NavigationProperty Name="TableCarType" Relationship="Self.FK_TableCar_TableCarType" FromRole="TableCar" ToRole="TableCarType" />
+    <NavigationProperty Name="TableTransactionItem" Relationship="Self.FK_TableTransactionItem_TableCar" FromRole="TableCar" ToRole="TableTransactionItem" />
+  </EntityType>
+  <EntityType Name="TableCarType">
+    <Key>
+      <PropertyRef Name="CarType" />
+    </Key>
+    <Property Name="CarType" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Desription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="TableCar" Relationship="Self.FK_TableCar_TableCarType" FromRole="TableCarType" ToRole="TableCar" />
+  </EntityType>
+  <EntityType Name="TableTransaction">
+    <Key>
+      <PropertyRef Name="TransactionID" />
+    </Key>
+    <Property Name="TransactionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TransactionDate" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="TableTransactionItem" Relationship="Self.FK_TableTransactionItem_TableTransaction" FromRole="TableTransaction" ToRole="TableTransactionItem" />
+  </EntityType>
+  <EntityType Name="TableTransactionItem">
+    <Key>
+      <PropertyRef Name="TransactionItemID" />
+    </Key>
+    <Property Name="TransactionItemID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TransactionID" Type="Int32" Nullable="false" />
+    <Property Name="CarID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="TableCar" Relationship="Self.FK_TableTransactionItem_TableCar" FromRole="TableTransactionItem" ToRole="TableCar" />
+    <NavigationProperty Name="TableTransaction" Relationship="Self.FK_TableTransactionItem_TableTransaction" FromRole="TableTransactionItem" ToRole="TableTransaction" />
+  </EntityType>
+  <Association Name="FK_TableCar_TableCarType">
+    <End Role="TableCarType" Type="Self.TableCarType" Multiplicity="1" />
+    <End Role="TableCar" Type="Self.TableCar" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TableCarType">
+        <PropertyRef Name="CarType" />
+      </Principal>
+      <Dependent Role="TableCar">
+        <PropertyRef Name="CarType" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TableTransactionItem_TableCar">
+    <End Role="TableCar" Type="Self.TableCar" Multiplicity="1" />
+    <End Role="TableTransactionItem" Type="Self.TableTransactionItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TableCar">
+        <PropertyRef Name="CarID" />
+      </Principal>
+      <Dependent Role="TableTransactionItem">
+        <PropertyRef Name="CarID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TableTransactionItem_TableTransaction">
+    <End Role="TableTransaction" Type="Self.TableTransaction" Multiplicity="1" />
+    <End Role="TableTransactionItem" Type="Self.TableTransactionItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TableTransaction">
+        <PropertyRef Name="TransactionID" />
+      </Principal>
+      <Dependent Role="TableTransactionItem">
+        <PropertyRef Name="TransactionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="CarShopDatabaseEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="DataUser" EntityType="Self.DataUser" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="TableCar" EntityType="Self.TableCar" />
+    <EntitySet Name="TableCarType" EntityType="Self.TableCarType" />
+    <EntitySet Name="TableTransaction" EntityType="Self.TableTransaction" />
+    <EntitySet Name="TableTransactionItem" EntityType="Self.TableTransactionItem" />
+    <AssociationSet Name="FK_TableCar_TableCarType" Association="Self.FK_TableCar_TableCarType">
+      <End Role="TableCarType" EntitySet="TableCarType" />
+      <End Role="TableCar" EntitySet="TableCar" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TableTransactionItem_TableCar" Association="Self.FK_TableTransactionItem_TableCar">
+      <End Role="TableCar" EntitySet="TableCar" />
+      <End Role="TableTransactionItem" EntitySet="TableTransactionItem" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TableTransactionItem_TableTransaction" Association="Self.FK_TableTransactionItem_TableTransaction">
+      <End Role="TableTransaction" EntitySet="TableTransaction" />
+      <End Role="TableTransactionItem" EntitySet="TableTransactionItem" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
